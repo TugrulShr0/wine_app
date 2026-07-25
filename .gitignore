@@ -1,0 +1,12 @@
+# Sanal ortam
+venv/
+env/
+
+# Python önbellek dosyaları
+__pycache__/
+*.pyc
+
+# Mac/Windows sistem dosyaları (Gerekirse)
+.DS_Store
+Thumbs.db
+README.md

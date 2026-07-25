@@ -1,0 +1,20 @@
+<div class="field">
+  <label for="{{ f.key }}">
+    {{ f.label }}
+    <span class="field-value" id="{{ f.key }}_val">{{ "%.2f"|format(f.mean) }}</span>
+  </label>
+  <input
+    type="range"
+    id="{{ f.key }}"
+    name="{{ f.key }}"
+    min="{{ f.min }}"
+    max="{{ f.max }}"
+    step="{{ ((f.max - f.min) / 100) }}"
+    value="{{ f.mean }}"
+    data-key="{{ f.key }}"
+  />
+  <div class="field-range">
+    <span>{{ "%.1f"|format(f.min) }}</span>
+    <span>{{ "%.1f"|format(f.max) }}</span>
+  </div>
+</div>

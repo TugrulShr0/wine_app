@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Şarap Kimyası Sınıflandırıcısı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<div class="vignette"></div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Kimyasal Analiz &middot; Makine Öğrenmesi</p>
+    <h1>Bir bardak şarabın <em>kimyasal imzasından</em><br>çeşidini tahmin edin.</h1>
+    <p class="hero-sub">
+      Aynı bölgede yetişen üç farklı üzüm çeşidinden elde edilen 178 şarabın
+      13 kimyasal ölçümüyle eğitilmiş bir Random Forest modeli. Değerleri
+      kendiniz ayarlayın veya veri setinden gerçek bir örnek çekin.
+    </p>
+    <div class="stat-row">
+      <div class="stat">
+        <span class="stat-value">{{ accuracy }}%</span>
+        <span class="stat-label">Test Doğruluğu</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value">32</span>
+        <span class="stat-label">Gizli Katman Nöronu</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value">{{ n_samples }}</span>
+        <span class="stat-label">Örnek Şarap</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="layout">
+
+  <section class="panel form-panel">
+    <div class="panel-head">
+      <h2>Kimyasal Ölçümler</h2>
+      <button id="randomBtn" class="ghost-btn" type="button">
+        <span class="dot"></span> Veri setinden rastgele örnek çek
+      </button>
+    </div>
+
+    <form id="wineForm">
+      <div class="group">
+        <h3 class="group-title">Alkol &amp; Asitlik</h3>
+        <div class="grid">
+          {% for f in features[:4] %}
+          {% include "field.html" %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="group">
+        <h3 class="group-title">Fenolik Bileşikler</h3>
+        <div class="grid">
+          {% for f in features[4:9] %}
+          {% include "field.html" %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="group">
+        <h3 class="group-title">Renk &amp; Yapı</h3>
+        <div class="grid">
+          {% for f in features[9:] %}
+          {% include "field.html" %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <button type="submit" class="predict-btn">Çeşidi Tahmin Et</button>
+    </form>
+  </section>
+
+  <aside class="panel result-panel">
+    <h2>Tahmin</h2>
+    <div id="resultEmpty" class="result-empty">
+      <div class="glass-icon">&#127863;</div>
+      <p>Soldaki değerleri ayarlayıp <strong>Çeşidi Tahmin Et</strong>'e basın.</p>
+    </div>
+
+    <div id="resultBody" class="result-body hidden">
+      <div class="predicted-label">
+        <span class="predicted-tag" id="predictedTag">Çeşit A</span>
+        <span class="predicted-conf" id="predictedConf">%0 güven</span>
+      </div>
+
+      <div class="bars" id="bars"></div>
+
+      <p id="trueLabelNote" class="true-label-note hidden"></p>
+    </div>
+  </aside>
+
+</main>
+
+<footer class="footer">
+  <p>Model: scikit-learn RandomForestClassifier &middot; Veri seti: UCI Wine (sklearn.datasets.load_wine) &middot; FastAPI ile sunulmuştur.</p>
+</footer>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
